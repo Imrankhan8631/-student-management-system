@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Management System</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f6f9;
+      color: #222;
+    }
+
+    header {
+      background: #1e293b;
+      color: white;
+      padding: 25px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin-bottom: 8px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      margin-bottom: 20px;
+    }
+
+    .form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    input, button {
+      padding: 13px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      font-size: 15px;
+    }
+
+    button {
+      background: #2563eb;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .search {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 14px;
+      border-bottom: 1px solid #eee;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f5f9;
+    }
+
+    .delete {
+      background: #dc2626;
+      padding: 8px 12px;
+    }
+
+    @media (max-width: 650px) {
+      .form {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        font-size: 13px;
+      }
+
+      th, td {
+        padding: 9px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Student Management System</h1>
+    <p>Manage student records easily</p>
+  </header>
+
+  <div class="container">
+
+    <div class="card">
+      <h2>Add Student</h2>
+
+      <div class="form">
+        <input type="text" id="name" placeholder="Student Name">
+        <input type="text" id="course" placeholder="Course">
+        <input type="email" id="email" placeholder="Email">
+        <button onclick="addStudent()">Add Student</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Student List</h2>
+
+      <input
+        type="text"
+        id="search"
+        class="search"
+        placeholder="Search student..."
+        onkeyup="searchStudent()"
+      >
+
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Course</th>
+            <th>Email</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="studentTable">
+          <tr>
+            <td>Rahul Kumar</td>
+            <td>BCA</td>
+            <td>rahul@example.com</td>
+            <td>
+              <button class="delete" onclick="deleteStudent(this)">
+                Delete
+              </button>
+            </td>
+          </tr>
+
+          <tr>
+            <td>Priya Sharma</td>
+            <td>BCA</td>
+            <td>priya@example.com</td>
+            <td>
+              <button class="delete" onclick="deleteStudent(this)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <script>
+    function addStudent() {
+      let name = document.getElementById("name").value;
+      let course = document.getElementById("course").value;
+      let email = document.getElementById("email").value;
+
+      if (name === "" || course === "" || email === "") {
+        alert("Please fill all fields");
+        return;
+      }
+
+      let table = document.getElementById("studentTable");
+
+      let row = table.insertRow();
+
+      row.innerHTML = `
+        <td>${name}</td>
+        <td>${course}</td>
+        <td>${email}</td>
+        <td>
+          <button class="delete" onclick="deleteStudent(this)">
+            Delete
+          </button>
+        </td>
+      `;
+
+      document.getElementById("name").value = "";
+      document.getElementById("course").value = "";
+      document.getElementById("email").value = "";
+    }
+
+    function deleteStudent(button) {
+      button.parentElement.parentElement.remove();
+    }
+
+    function searchStudent() {
+      let input = document.getElementById("search").value.toLowerCase();
+      let rows = document.querySelectorAll("#studentTable tr");
+
+      rows.forEach(row => {
+        row.style.display =
+          row.innerText.toLowerCase().includes(input) ? "" : "none";
+      });
+    }
+  </script>
+
+</body>
+</html>
